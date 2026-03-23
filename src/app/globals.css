@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-zoho-navy: #192b3c;
+  --color-zoho-navy-light: #243447;
+  --color-zoho-green: #22ae60;
+  --color-zoho-green-hover: #1e9652;
+  --color-zoho-gray-bg: #f3f5f7;
+  --color-zoho-border: #e2e8f0;
+}
+
+@layer base {
+  body {
+    @apply bg-zoho-gray-bg text-slate-900 antialiased;
+  }
+}
+
+@layer components {
+  .btn-zoho {
+    @apply bg-zoho-green text-white px-4 py-2 rounded-md font-medium transition-colors hover:bg-zoho-green-hover shadow-sm;
+  }
+}

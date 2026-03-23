@@ -1,0 +1,27 @@
+import mongoose, { Schema, model, models } from 'mongoose';
+
+const CustomerSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  displayName: { type: String, required: true },
+  email: { type: String },
+  phone: { type: String },
+  billingAddress: {
+    street: String,
+    city: String,
+    state: String,
+    zipCode: String,
+    country: String,
+  },
+  shippingAddress: {
+    street: String,
+    city: String,
+    state: String,
+    zipCode: String,
+    country: String,
+  },
+  currency: { type: String, default: 'USD' },
+  status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
+}, { timestamps: true });
+
+const Customer = models.Customer || model('Customer', CustomerSchema);
+export default Customer;
