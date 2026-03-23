@@ -22,8 +22,8 @@ export default function SummaryCard({ title, amount, currency = 'USD', type, ove
     <div className='bg-white rounded-xl border border-zoho-border p-6 shadow-sm hover:shadow-md transition-shadow'>
       <div className='flex justify-between items-start mb-4'>
         <div>
-          <h3 className='text-sm font-medium text-slate-500 uppercase tracking-wider'>{title}</h3>
-          <p className='text-3xl font-bold text-slate-900 mt-1'>
+          <h3 className='text-[10px] md:text-sm font-medium text-slate-500 uppercase tracking-wider'>{title}</h3>
+          <p className='text-xl md:text-3xl font-bold text-slate-900 mt-1'>
             {new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)}
           </p>
         </div>

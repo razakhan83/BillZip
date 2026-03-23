@@ -1,26 +1,33 @@
+'use client'
+
 import React from 'react'
+import dynamic from 'next/dynamic'
 import SummaryCard from '@/components/dashboard/SummaryCard'
-import CashFlowChart from '@/components/dashboard/CashFlowChart'
 import { Plus, Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+const CashFlowChart = dynamic(() => import('@/components/dashboard/CashFlowChart'), { 
+  ssr: false,
+  loading: () => <div className='h-[300px] w-full bg-slate-50 animate-pulse rounded-xl border border-zoho-border' />
+})
+
 export default function DashboardPage() {
   return (
-    <div className='space-y-8'>
+    <div className='space-y-6 md:space-y-8'>
       {/* Header Section */}
-      <div className='flex justify-between items-center'>
+      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
         <div>
-          <h1 className='text-2xl font-bold text-slate-900'>Dashboard</h1>
-          <p className='text-slate-500 text-sm'>Welcome back, here's what's happening today.</p>
+          <h1 className='text-xl md:text-2xl font-bold text-slate-900'>Dashboard</h1>
+          <p className='text-slate-500 text-xs md:text-sm'>Welcome back, here's what's happening today.</p>
         </div>
-        <div className='flex gap-3'>
-          <button className='flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm'>
+        <div className='flex gap-2 md:gap-3 w-full sm:w-auto'>
+          <button className='flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 md:px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm'>
             <Download className='w-4 h-4' />
-            Export
+            <span className='xs:inline hidden'>Export</span>
           </button>
-          <button className='btn-zoho flex items-center gap-2'>
+          <button className='flex-1 sm:flex-none btn-zoho flex items-center justify-center gap-2'>
             <Plus className='w-4 h-4' />
-            New Invoice
+            <span>New Invoice</span>
           </button>
         </div>
       </div>
