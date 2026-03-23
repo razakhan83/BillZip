@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model, models } from 'mongoose'
 
 const CustomerSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -21,7 +21,7 @@ const CustomerSchema = new Schema({
   },
   currency: { type: String, default: 'USD' },
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
-}, { timestamps: true });
+}, { timestamps: true })
 
-const Customer = models.Customer || model('Customer', CustomerSchema);
-export default Customer;
+const Customer = models.Customer || model('Customer', CustomerSchema)
+export default Customer

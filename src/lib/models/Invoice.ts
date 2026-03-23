@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model, models } from 'mongoose'
 
 const InvoiceItemSchema = new Schema({
   itemId: { type: Schema.Types.ObjectId, ref: 'Item' },
@@ -6,7 +6,7 @@ const InvoiceItemSchema = new Schema({
   quantity: { type: Number, required: true, default: 1 },
   rate: { type: Number, required: true },
   amount: { type: Number, required: true },
-});
+})
 
 const InvoiceSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -24,8 +24,8 @@ const InvoiceSchema = new Schema({
   status: { type: String, enum: ['Draft', 'Sent', 'Partially Paid', 'Paid', 'Overdue', 'Void'], default: 'Draft' },
   notes: { type: String },
   terms: { type: String },
-  attachments: [{ type: String }], // Cloudinary URLs
-}, { timestamps: true });
+  attachments: [{ type: String }],
+}, { timestamps: true })
 
-const Invoice = models.Invoice || model('Invoice', InvoiceSchema);
-export default Invoice;
+const Invoice = models.Invoice || model('Invoice', InvoiceSchema)
+export default Invoice
