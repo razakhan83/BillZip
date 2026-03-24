@@ -3,16 +3,17 @@
 import React from 'react'
 import { ArrowUpRight, ArrowDownRight, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils/currency'
 
 interface SummaryCardProps {
   title: string
   amount: number
-  currency?: string
+  currencySymbol?: string
   type: 'receivable' | 'payable'
   overdue: number
 }
 
-export default function SummaryCard({ title, amount, currency = 'USD', type, overdue }: SummaryCardProps) {
+export default function SummaryCard({ title, amount, currencySymbol = 'Rs.', type, overdue }: SummaryCardProps) {
   const isReceivable = type === 'receivable'
   const color = isReceivable ? 'text-zoho-green' : 'text-orange-500'
   const bgColor = isReceivable ? 'bg-zoho-green/10' : 'bg-orange-500/10'
@@ -24,7 +25,7 @@ export default function SummaryCard({ title, amount, currency = 'USD', type, ove
         <div>
           <h3 className='text-[10px] md:text-sm font-medium text-slate-500 uppercase tracking-wider'>{title}</h3>
           <p className='text-xl md:text-3xl font-bold text-slate-900 mt-1'>
-            {new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)}
+            {formatCurrency(amount, currencySymbol)}
           </p>
         </div>
         <div className={cn('p-2 rounded-lg', bgColor)}>
@@ -36,12 +37,12 @@ export default function SummaryCard({ title, amount, currency = 'USD', type, ove
         <div>
           <div className='flex justify-between text-xs font-medium mb-1'>
             <span className='text-slate-500 uppercase'>Current</span>
-            <span className='text-slate-900'>{((amount - overdue) / amount * 100).toFixed(0)}%</span>
+            <span className='text-slate-900'>{amount > 0 ? ((amount - overdue) / amount * 100).toFixed(0) : 0}%</span>
           </div>
           <div className='w-full h-2 bg-slate-100 rounded-full overflow-hidden'>
             <div 
               className={cn('h-full transition-all duration-1000', barColor)} 
-              style={{ width: `${((amount - overdue) / amount * 100)}%` }}
+              style={{ width: `${amount > 0 ? ((amount - overdue) / amount * 100) : 0}%` }}
             ></div>
           </div>
         </div>
@@ -50,7 +51,7 @@ export default function SummaryCard({ title, amount, currency = 'USD', type, ove
           <Clock className='w-4 h-4' />
           <span>Overdue: </span>
           <span className='font-semibold text-red-500'>
-            {new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(overdue)}
+            {formatCurrency(overdue, currencySymbol)}
           </span>
         </div>
       </div>

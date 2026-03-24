@@ -18,7 +18,7 @@ const navItems = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Items', href: '/items', icon: Package },
   { name: 'Customers', href: '/customers', icon: Users },
-  { name: 'Invoices', href: '/invoices', icon: FileText },
+  { name: 'Invoices', href: '/sales/invoices', icon: FileText },
   { name: 'Reports', href: '/reports', icon: BarChart3 },
 ]
 

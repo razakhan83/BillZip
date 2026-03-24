@@ -19,8 +19,10 @@ const CustomerSchema = new Schema({
     zipCode: String,
     country: String,
   },
-  currency: { type: String, default: 'USD' },
+  currency: { type: String, default: 'PKR' },
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
+  lastInvoiceDate: { type: Date },
+  totalBalance: { type: Number, default: 0 },
 }, { timestamps: true })
 
 const Customer = models.Customer || model('Customer', CustomerSchema)

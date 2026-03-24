@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from '@/components/Sidebar'
@@ -15,6 +15,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <html lang='en'>
@@ -45,7 +50,6 @@ export default function RootLayout({
                   />
                 </div>
 
-                {/* Mobile Search Button Icon only */}
                 <button className='sm:hidden p-2 hover:bg-slate-100 rounded-md text-slate-600'>
                   <Search className='w-5 h-5' />
                 </button>
@@ -68,7 +72,7 @@ export default function RootLayout({
             
             {/* Main Content */}
             <main className='p-4 md:p-8 flex-1 overflow-y-auto'>
-              {children}
+              {mounted ? children : <div className='p-8 flex items-center justify-center h-full'><Loader2 className='w-8 h-8 animate-spin text-zoho-green' /></div>}
             </main>
           </div>
         </div>
@@ -76,3 +80,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+import { Loader2 } from 'lucide-react'

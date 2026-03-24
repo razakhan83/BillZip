@@ -1,10 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import SummaryCard from '@/components/dashboard/SummaryCard'
-import { Plus, Download } from 'lucide-react'
+import { Plus, Download, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { getSettings } from '@/lib/actions/settings'
+import { formatCurrency } from '@/lib/utils/currency'
 
 const CashFlowChart = dynamic(() => import('@/components/dashboard/CashFlowChart'), { 
   ssr: false,
@@ -12,6 +15,22 @@ const CashFlowChart = dynamic(() => import('@/components/dashboard/CashFlowChart
 })
 
 export default function DashboardPage() {
+  const [mounted, setMounted] = useState(false)
+  const [settings, setSettings] = useState({ currencyCode: 'PKR', currencySymbol: 'Rs.' })
+
+  useEffect(() => {
+    setMounted(true)
+    getSettings().then(setSettings)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className='flex items-center justify-center h-96'>
+        <Loader2 className='w-8 h-8 animate-spin text-zoho-green' />
+      </div>
+    )
+  }
+
   return (
     <div className='space-y-6 md:space-y-8'>
       {/* Header Section */}
@@ -25,10 +44,12 @@ export default function DashboardPage() {
             <Download className='w-4 h-4' />
             <span className='xs:inline hidden'>Export</span>
           </button>
-          <button className='flex-1 sm:flex-none btn-zoho flex items-center justify-center gap-2'>
-            <Plus className='w-4 h-4' />
-            <span>New Invoice</span>
-          </button>
+          <Link href='/sales/invoices/new' className='flex-1 sm:flex-none'>
+            <button className='w-full btn-zoho flex items-center justify-center gap-2'>
+              <Plus className='w-4 h-4' />
+              <span>New Invoice</span>
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -39,12 +60,14 @@ export default function DashboardPage() {
           amount={45280.50} 
           type='receivable' 
           overdue={12450.00} 
+          currencySymbol={settings.currencySymbol}
         />
         <SummaryCard 
           title='Total Payables' 
           amount={28140.20} 
           type='payable' 
           overdue={5200.00} 
+          currencySymbol={settings.currencySymbol}
         />
       </div>
 
@@ -55,7 +78,7 @@ export default function DashboardPage() {
           <CashFlowChart />
         </div>
 
-        {/* Recent Activity / Tasks Placeholder */}
+        {/* Sales Summary */}
         <div className='bg-white p-6 rounded-xl border border-zoho-border shadow-sm'>
           <div className='flex justify-between items-center mb-6'>
             <h3 className='font-semibold text-slate-800 text-lg'>Sales Summary</h3>
@@ -64,7 +87,7 @@ export default function DashboardPage() {
           
           <div className='space-y-6'>
             {[
-              { label: 'Total Sales', value: '$124,500.00', trend: '+12%' },
+              { label: 'Total Sales', value: formatCurrency(124500.00, settings.currencySymbol), trend: '+12%' },
               { label: 'Unpaid Invoices', value: '18', trend: '4 Overdue' },
               { label: 'Active Customers', value: '142', trend: '+5 this month' },
               { label: 'Top Category', value: 'Software Services', trend: '60%' },
